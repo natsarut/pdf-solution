@@ -7,11 +7,11 @@ namespace PdfSolution.WinForms
             InitializeComponent();
         }
 
-        private void ShowSingleForm<T>() where T:Form
+        private void ShowSingleForm<T>() where T : Form
         {
             var form = this.MdiChildren.FirstOrDefault(x => x is T);
 
-            if (form==null)
+            if (form == null)
             {
                 form = (T)Activator.CreateInstance<T>();
                 form.MdiParent = this;
@@ -24,6 +24,11 @@ namespace PdfSolution.WinForms
         private void DocumentsComparerMenuItem_Click(object sender, EventArgs e)
         {
             ShowSingleForm<DocumentComparerForm>();
+        }
+
+        private void CreatesTextTableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowSingleForm<TextTableCreatorForm>();
         }
     }
 }

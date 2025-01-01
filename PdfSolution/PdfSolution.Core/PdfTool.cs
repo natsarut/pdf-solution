@@ -108,17 +108,22 @@ namespace PdfSolution.Core
                 bool testResult = false;
                 string? errorMessage = null;
 
-                if (testCaseBase is TestCaseEqual testCase)
+                try
                 {
-                    try
+                    if (testCaseBase is TestCaseEqual testCaseEqual)
                     {
-                        actualText = pdfTextReader.GetText(testCase.PageNumber, testCase.LineIndex, testCase.BeginCharacterIndex, testCase.EndCharacterIndex);
-                        testResult = actualText.Equals(testCase.ExpectedText);
+                        actualText = pdfTextReader.GetText(testCaseEqual.PageNumber, testCaseEqual.LineIndex, testCaseEqual.BeginCharacterIndex, testCaseEqual.EndCharacterIndex);
+                        testResult = actualText.Equals(testCaseEqual.ExpectedText);
                     }
-                    catch (Exception ex) 
+                    else if (testCaseBase is TestCaseContain testCaseContain)
                     {
-                        errorMessage = ex.Message;
+                        actualText = pdfTextReader.GetText(testCaseContain.PageNumber, testCaseContain.LineIndex, testCaseContain.BeginCharacterIndex, testCaseContain.EndCharacterIndex);
+                        testResult = actualText.Contains(testCaseContain.ExpectedText);
                     }
+                }
+                catch (Exception ex)
+                {
+                    errorMessage = ex.Message;
                 }
 
                 var testCaseResult = new TestCaseResult(testCaseBase, actualText, testResult, errorMessage);

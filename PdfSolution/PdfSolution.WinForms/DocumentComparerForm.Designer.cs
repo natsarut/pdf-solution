@@ -32,9 +32,9 @@
             compareButton = new Button();
             openFileDialog1 = new OpenFileDialog();
             file1TextBox = new TextBox();
-            selectFile1button = new Button();
+            selectFile1Button = new Button();
             file2TextBox = new TextBox();
-            selectFile2button = new Button();
+            selectFile2Button = new Button();
             openFileDialog2 = new OpenFileDialog();
             comparisonTypeComboBox = new ComboBox();
             fileGroupBox = new GroupBox();
@@ -47,6 +47,7 @@
             folder1TextBox = new TextBox();
             fileRadio = new RadioButton();
             folderRadio = new RadioButton();
+            label2 = new Label();
             fileGroupBox.SuspendLayout();
             folderGroupBox.SuspendLayout();
             SuspendLayout();
@@ -62,7 +63,7 @@
             // 
             // compareButton
             // 
-            compareButton.Location = new Point(695, 233);
+            compareButton.Location = new Point(698, 248);
             compareButton.Name = "compareButton";
             compareButton.Size = new Size(75, 23);
             compareButton.TabIndex = 2;
@@ -72,7 +73,6 @@
             // 
             // openFileDialog1
             // 
-            openFileDialog1.FileName = "openFileDialog1";
             openFileDialog1.Filter = "pdf files (*.pdf)|*.pdf";
             // 
             // file1TextBox
@@ -83,15 +83,15 @@
             file1TextBox.Size = new Size(600, 23);
             file1TextBox.TabIndex = 3;
             // 
-            // selectFile1button
+            // selectFile1Button
             // 
-            selectFile1button.Location = new Point(612, 22);
-            selectFile1button.Name = "selectFile1button";
-            selectFile1button.Size = new Size(79, 23);
-            selectFile1button.TabIndex = 4;
-            selectFile1button.Text = "Select File 1";
-            selectFile1button.UseVisualStyleBackColor = true;
-            selectFile1button.Click += SelectFile1button_Click;
+            selectFile1Button.Location = new Point(612, 22);
+            selectFile1Button.Name = "selectFile1Button";
+            selectFile1Button.Size = new Size(104, 23);
+            selectFile1Button.TabIndex = 4;
+            selectFile1Button.Text = "Select File 1...";
+            selectFile1Button.UseVisualStyleBackColor = true;
+            selectFile1Button.Click += SelectFile1Button_Click;
             // 
             // file2TextBox
             // 
@@ -101,19 +101,18 @@
             file2TextBox.Size = new Size(600, 23);
             file2TextBox.TabIndex = 5;
             // 
-            // selectFile2button
+            // selectFile2Button
             // 
-            selectFile2button.Location = new Point(612, 51);
-            selectFile2button.Name = "selectFile2button";
-            selectFile2button.Size = new Size(79, 23);
-            selectFile2button.TabIndex = 6;
-            selectFile2button.Text = "Select File 2";
-            selectFile2button.UseVisualStyleBackColor = true;
-            selectFile2button.Click += SelectFile2button_Click;
+            selectFile2Button.Location = new Point(612, 51);
+            selectFile2Button.Name = "selectFile2Button";
+            selectFile2Button.Size = new Size(104, 23);
+            selectFile2Button.TabIndex = 6;
+            selectFile2Button.Text = "Select File 2...";
+            selectFile2Button.UseVisualStyleBackColor = true;
+            selectFile2Button.Click += SelectFile2Button_Click;
             // 
             // openFileDialog2
             // 
-            openFileDialog2.FileName = "openFileDialog2";
             openFileDialog2.Filter = "pdf files (*.pdf)|*.pdf";
             // 
             // comparisonTypeComboBox
@@ -129,11 +128,11 @@
             // fileGroupBox
             // 
             fileGroupBox.Controls.Add(file1TextBox);
-            fileGroupBox.Controls.Add(selectFile1button);
+            fileGroupBox.Controls.Add(selectFile1Button);
             fileGroupBox.Controls.Add(file2TextBox);
-            fileGroupBox.Controls.Add(selectFile2button);
+            fileGroupBox.Controls.Add(selectFile2Button);
             fileGroupBox.Enabled = false;
-            fileGroupBox.Location = new Point(32, 37);
+            fileGroupBox.Location = new Point(35, 52);
             fileGroupBox.Name = "fileGroupBox";
             fileGroupBox.Size = new Size(738, 91);
             fileGroupBox.TabIndex = 9;
@@ -147,7 +146,7 @@
             folderGroupBox.Controls.Add(folder2TextBox);
             folderGroupBox.Controls.Add(folder1TextBox);
             folderGroupBox.Enabled = false;
-            folderGroupBox.Location = new Point(32, 134);
+            folderGroupBox.Location = new Point(35, 149);
             folderGroupBox.Name = "folderGroupBox";
             folderGroupBox.Size = new Size(738, 93);
             folderGroupBox.TabIndex = 10;
@@ -158,9 +157,9 @@
             // 
             selectFolder2Button.Location = new Point(612, 51);
             selectFolder2Button.Name = "selectFolder2Button";
-            selectFolder2Button.Size = new Size(93, 23);
+            selectFolder2Button.Size = new Size(104, 23);
             selectFolder2Button.TabIndex = 14;
-            selectFolder2Button.Text = "Select Folder 2";
+            selectFolder2Button.Text = "Select Folder 2...";
             selectFolder2Button.UseVisualStyleBackColor = true;
             selectFolder2Button.Click += SelectFolder2Button_Click;
             // 
@@ -168,9 +167,9 @@
             // 
             selectFolder1Button.Location = new Point(612, 22);
             selectFolder1Button.Name = "selectFolder1Button";
-            selectFolder1Button.Size = new Size(93, 23);
+            selectFolder1Button.Size = new Size(104, 23);
             selectFolder1Button.TabIndex = 13;
-            selectFolder1Button.Text = "Select Folder 1";
+            selectFolder1Button.Text = "Select Folder 1...";
             selectFolder1Button.UseVisualStyleBackColor = true;
             selectFolder1Button.Click += SelectFolder1Button_Click;
             // 
@@ -193,7 +192,7 @@
             // fileRadio
             // 
             fileRadio.AutoSize = true;
-            fileRadio.Location = new Point(12, 37);
+            fileRadio.Location = new Point(15, 52);
             fileRadio.Name = "fileRadio";
             fileRadio.Size = new Size(14, 13);
             fileRadio.TabIndex = 11;
@@ -204,7 +203,7 @@
             // folderRadio
             // 
             folderRadio.AutoSize = true;
-            folderRadio.Location = new Point(12, 134);
+            folderRadio.Location = new Point(15, 149);
             folderRadio.Name = "folderRadio";
             folderRadio.Size = new Size(14, 13);
             folderRadio.TabIndex = 12;
@@ -212,11 +211,21 @@
             folderRadio.UseVisualStyleBackColor = true;
             folderRadio.Click += FolderRadio_Click;
             // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(12, 34);
+            label2.Name = "label2";
+            label2.Size = new Size(118, 15);
+            label2.TabIndex = 7;
+            label2.Text = "Select files or folders:";
+            // 
             // DocumentComparerForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(900, 450);
+            Controls.Add(label2);
             Controls.Add(folderRadio);
             Controls.Add(fileRadio);
             Controls.Add(folderGroupBox);
@@ -240,9 +249,9 @@
         private Button compareButton;
         private OpenFileDialog openFileDialog1;
         private TextBox file1TextBox;
-        private Button selectFile1button;
+        private Button selectFile1Button;
         private TextBox file2TextBox;
-        private Button selectFile2button;
+        private Button selectFile2Button;
         private OpenFileDialog openFileDialog2;
         private ComboBox comparisonTypeComboBox;
         private GroupBox fileGroupBox;
@@ -255,5 +264,6 @@
         private TextBox folder2TextBox;
         private RadioButton fileRadio;
         private RadioButton folderRadio;
+        private Label label2;
     }
 }

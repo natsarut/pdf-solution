@@ -32,6 +32,7 @@
             toolsToolStripMenuItem = new ToolStripMenuItem();
             documentsComparerMenuItem = new ToolStripMenuItem();
             treeView = new TreeView();
+            createsTextTableToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -46,7 +47,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { documentsComparerMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createsTextTableToolStripMenuItem, documentsComparerMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -65,6 +66,13 @@
             treeView.Name = "treeView";
             treeView.Size = new Size(300, 537);
             treeView.TabIndex = 3;
+            // 
+            // createsTextTableToolStripMenuItem
+            // 
+            createsTextTableToolStripMenuItem.Name = "createsTextTableToolStripMenuItem";
+            createsTextTableToolStripMenuItem.Size = new Size(187, 22);
+            createsTextTableToolStripMenuItem.Text = "Creates Text Table";
+            createsTextTableToolStripMenuItem.Click += CreatesTextTableToolStripMenuItem_Click;
             // 
             // MainForm
             // 
@@ -89,5 +97,6 @@
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem documentsComparerMenuItem;
         private TreeView treeView;
+        private ToolStripMenuItem createsTextTableToolStripMenuItem;
     }
 }

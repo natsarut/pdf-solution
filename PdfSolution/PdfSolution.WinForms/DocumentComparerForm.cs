@@ -22,33 +22,10 @@ namespace PdfSolution.WinForms
             InitializeComponent();
         }
 
-        private static void OpenOutputFile(string fileName)
-        {
-            string outputFilePath = Path.Combine(Program.OutputPath, fileName);
-
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                Process.Start(new ProcessStartInfo(outputFilePath) { UseShellExecute = true });
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-            {
-                Process.Start("xdg-open", outputFilePath);
-            }
-            else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-            {
-                Process.Start("open", outputFilePath);
-            }
-        }
-
         private void SelectFilesOrFolders()
         {
             fileGroupBox.Enabled = fileRadio.Checked;
             folderGroupBox.Enabled = folderRadio.Checked;
-        }
-
-        private static void ShowValidationMessageBox(string message)
-        {
-            MessageBox.Show(message, "Inputs Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
 
         private bool ValidateInputs()
@@ -57,21 +34,21 @@ namespace PdfSolution.WinForms
 
             if (string.IsNullOrEmpty(comparisonTypeComboBox.Text))
             {
-                ShowValidationMessageBox("Please select comparison type.");
+                Program.ShowValidationMessageBox("Please select comparison type.");
             }
             else if (!(fileRadio.Checked||folderRadio.Checked))
             {
-                ShowValidationMessageBox("Please select files or folders.");
+                Program.ShowValidationMessageBox("Please select files or folders.");
             }
             else if (fileRadio.Checked)
             {
                 if (string.IsNullOrEmpty(file1TextBox.Text))
                 {
-                    ShowValidationMessageBox("Please select file 1.");
+                    Program.ShowValidationMessageBox("Please select file 1.");
                 }
                 else if (string.IsNullOrEmpty(file2TextBox.Text))
                 {
-                    ShowValidationMessageBox("Please select file 2.");
+                    Program.ShowValidationMessageBox("Please select file 2.");
                 }
                 else
                 {
@@ -82,11 +59,11 @@ namespace PdfSolution.WinForms
             {
                 if (string.IsNullOrEmpty(folder1TextBox.Text))
                 {
-                    ShowValidationMessageBox("Please select folder 1.");
+                    Program.ShowValidationMessageBox("Please select folder 1.");
                 }
                 else if (string.IsNullOrEmpty(folder2TextBox.Text))
                 {
-                    ShowValidationMessageBox("Please select folder 2.");
+                    Program.ShowValidationMessageBox("Please select folder 2.");
                 }
                 else
                 {
@@ -129,17 +106,17 @@ namespace PdfSolution.WinForms
                             break;
                     }
 
-                    OpenOutputFile(outputFileName);
-                    MessageBox.Show("Compare documents successfully.", "Compare Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Program.OpenOutputFile(outputFileName);
+                    Program.ShowSuccessMessageBox("Compare documents successfully.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Exception", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Program.ShowExceptionMessageBox(ex.Message);
             }   
         }
 
-        private void SelectFile1button_Click(object sender, EventArgs e)
+        private void SelectFile1Button_Click(object sender, EventArgs e)
         {
             if (openFileDialog1.ShowDialog(this) == DialogResult.OK)
             {
@@ -147,7 +124,7 @@ namespace PdfSolution.WinForms
             }
         }
 
-        private void SelectFile2button_Click(object sender, EventArgs e)
+        private void SelectFile2Button_Click(object sender, EventArgs e)
         {
             if (openFileDialog2.ShowDialog(this) == DialogResult.OK)
             {
