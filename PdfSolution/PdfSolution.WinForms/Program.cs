@@ -1,0 +1,25 @@
+namespace PdfSolution.WinForms
+{
+    internal static class Program
+    {
+        public const string OutputPath = "output";
+        
+        /// <summary>
+        ///  The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+
+            if (!Directory.Exists(OutputPath))
+            {
+                Directory.CreateDirectory(OutputPath);
+            }
+
+            Application.Run(new MainForm());
+        }
+    }
+}

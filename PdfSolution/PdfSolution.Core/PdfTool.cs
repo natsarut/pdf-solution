@@ -11,6 +11,12 @@ namespace PdfSolution.Core
 {
     public static class PdfTool
     {
+        public enum ComparisonTypes
+        {
+            CompareBySide,
+            CompareByPage
+        }
+
         private const string pdfSearchPattern = "*.pdf";
         private const string textSuccess = "text-success";
         private const string textError = "text-danger";
@@ -248,7 +254,7 @@ namespace PdfSolution.Core
             return string.Join(" ", words1.Select(word => words2.Contains(word) ? word : $"<span class=\"text-bg-warning\">{word.HtmlEncode()}</span>"));
         }
 
-        public static string ComparePdfBySide(string filePath1, string filePath2, string? outputFileName = null)
+        public static DocumentComparisonResult ComparePdfBySide(string filePath1, string filePath2, string? outputFileName = null)
         {
             var reader1 = new PdfTextReader(filePath1);
             var reader2 = new PdfTextReader(filePath2);
@@ -313,16 +319,16 @@ namespace PdfSolution.Core
             bodyContent.Append($"</div></div></div></div>");
             bodyContent.Append(tableContent);
             
-            string result = ResourceHelper.GetLayoutHtml();
-            result = result.Replace("{PageTitle}", "PDF Comparison Result (by side)");
-            result = result.Replace("{BodyContent}", bodyContent.ToString());
+            string html = ResourceHelper.GetLayoutHtml();
+            html = html.Replace("{PageTitle}", "PDF Comparison Result (by side)");
+            html = html.Replace("{BodyContent}", bodyContent.ToString());
 
             if (!string.IsNullOrWhiteSpace(outputFileName))
             {
-                WriteOutput(outputFileName, result);
+                WriteOutput(outputFileName, html);
             }
 
-            return result;
+            return new DocumentComparisonResult(html, mismatchLines, equalPercentage);
         }
 
         public static DocumentComparisonResult ComparePdfByPage(string filePath1, string filePath2, string? outputFileName = null)
@@ -422,7 +428,7 @@ namespace PdfSolution.Core
             return new DocumentComparisonResult(html, mismatchLines, equalPercentage);
         }
 
-        public static DocumentComparisonsReport CompareByDirectory(string dir1, string dir2, string? outputFileName = null)
+        public static DocumentComparisonsReport CompareByDirectory(string dir1, string dir2,ComparisonTypes comparisonType, string? outputFileName = null)
         {
             var files1 = Directory.GetFiles(dir1, pdfSearchPattern).Select(x => Path.GetFileName(x));
             var files2 = Directory.GetFiles(dir2, pdfSearchPattern).Select(x => Path.GetFileName(x));
@@ -434,7 +440,13 @@ namespace PdfSolution.Core
                 string filePath1 = Path.Combine(dir1, fileName);
                 string filePath2 = Path.Combine(dir2, fileName);
                 string resultFileName = $"{Path.GetFileNameWithoutExtension(fileName)}-ComparisonResult.html";
-                DocumentComparisonResult comparisonResult = ComparePdfByPage(filePath1, filePath2, resultFileName);
+                DocumentComparisonResult comparisonResult = comparisonType switch
+                {
+                    ComparisonTypes.CompareByPage => ComparePdfByPage(filePath1, filePath2, resultFileName),
+                    ComparisonTypes.CompareBySide => ComparePdfBySide(filePath1, filePath2, resultFileName),
+                    _ => ComparePdfByPage(filePath1, filePath2, resultFileName)
+                };
+
                 comparisonResult.ComparisonFileName = fileName;
                 comparisonResult.ResultFileName = resultFileName;
                 comparisonResults.Add(comparisonResult);

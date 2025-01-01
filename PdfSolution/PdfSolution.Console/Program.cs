@@ -69,7 +69,7 @@ if (args.Length > 0)
                     outputFileName = "DocumentComparisons.html";
                     Console.WriteLine(processingMessage);
                     ClearOutputDirectory();
-                    DocumentComparisonsReport report = PdfTool.CompareByDirectory(dir1, dir2, outputFileName);
+                    DocumentComparisonsReport report = PdfTool.CompareByDirectory(dir1, dir2, PdfTool.ComparisonTypes.CompareByPage, outputFileName);
                     Console.WriteLine($"Found {report.TotalMatchingFiles} matching files.");
                     Console.WriteLine($"Comparison complete. See directory '{outputDirectory}' for details.");
                     OpenFile(outputFileName);

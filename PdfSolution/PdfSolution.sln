@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSolution.Core", "PdfSolu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSolution.Console", "PdfSolution.Console\PdfSolution.Console.csproj", "{8671F1C6-01D0-45B5-908B-BDC32DAD2929}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSolution.Wpf", "PdfSolution.Wpf\PdfSolution.Wpf.csproj", "{61C68C67-16A4-4557-AFCA-73CC5CD27F07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PdfSolution.WinForms", "PdfSolution.WinForms\PdfSolution.WinForms.csproj", "{80BF9207-E6DC-424A-B50C-BA86FE1956FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{8671F1C6-01D0-45B5-908B-BDC32DAD2929}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8671F1C6-01D0-45B5-908B-BDC32DAD2929}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8671F1C6-01D0-45B5-908B-BDC32DAD2929}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61C68C67-16A4-4557-AFCA-73CC5CD27F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61C68C67-16A4-4557-AFCA-73CC5CD27F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61C68C67-16A4-4557-AFCA-73CC5CD27F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61C68C67-16A4-4557-AFCA-73CC5CD27F07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80BF9207-E6DC-424A-B50C-BA86FE1956FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80BF9207-E6DC-424A-B50C-BA86FE1956FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80BF9207-E6DC-424A-B50C-BA86FE1956FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80BF9207-E6DC-424A-B50C-BA86FE1956FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
