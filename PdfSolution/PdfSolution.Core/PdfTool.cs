@@ -179,9 +179,9 @@ namespace PdfSolution.Core
         {
             var bodyContent = new StringBuilder("<h2>Summary</h2>");
             bodyContent.Append("<div class=\"container text-center\">");
-            bodyContent.Append("<div class=\"row\"><div class=\"col\">Directory under test</div><div class=\"col\">Total tests</div><div class=\"col\">Failed tests</div><div class=\"col\">Pass percentage</div></div>");
+            bodyContent.Append("<div class=\"row\"><div class=\"col-7\">Directory under test</div><div class=\"col\">Total tests</div><div class=\"col\">Failed tests</div><div class=\"col\">Pass percentage</div></div>");
             bodyContent.Append("<div class=\"row\">");
-            bodyContent.Append($"<div class=\"col\"><h3>{testDocumentsReport.DirectoryUnderTest.HtmlEncode()}</h3></div>");
+            bodyContent.Append($"<div class=\"col-7\"><h3>{testDocumentsReport.DirectoryUnderTest.HtmlEncode()}</h3></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{testDocumentsReport.TotalTests}</h3></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{testDocumentsReport.FailedTests}</h3></div>");
             bodyContent.Append("<div class=\"col\">");
@@ -230,15 +230,26 @@ namespace PdfSolution.Core
                     }
                     else
                     {
-                        if (testCaseResult.TestCase is TestCaseEqual testCase)
+                        if (testCaseResult.TestCase is TestCaseEqual testCaseEqual)
                         {
                             if (testCaseResult.TestResult)
                             {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the expected text <strong>\"{testCase.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCase.PageNumber}, {testCase.LineIndex}, {testCase.BeginCharacterIndex}, {testCase.EndCharacterIndex})</strong>.</li>");
+                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
                             }
                             else
                             {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the expected text <strong>\"{testCase.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCase.PageNumber}, {testCase.LineIndex}, {testCase.BeginCharacterIndex}, {testCase.EndCharacterIndex})</strong>.</li>");
+                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
+                            }
+                        }
+                        else if (testCaseResult.TestCase is TestCaseContain testCaseContain)
+                        {
+                            if (testCaseResult.TestResult)
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> contains the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
+                            }
+                            else
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not contain to the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
                             }
                         }
                     }
@@ -311,9 +322,9 @@ namespace PdfSolution.Core
             var bodyContent = new StringBuilder();
             bodyContent.Append("<h2>Summary</h2>");
             bodyContent.Append("<div class=\"container text-center\">");
-            bodyContent.Append("<div class=\"row\"><div class=\"col\">Number of lines</div><div class=\"col\">Max lines</div><div class=\"col\">Mismatch lines</div><div class=\"col\">Equal percentage</div></div>");
+            bodyContent.Append("<div class=\"row\"><div class=\"col-7\">Number of lines</div><div class=\"col\">Max lines</div><div class=\"col\">Mismatch lines</div><div class=\"col\">Equal percentage</div></div>");
             bodyContent.Append("<div class=\"row\">");
-            bodyContent.Append($"<div class=\"col text-start\">{filePath1.HtmlEncode()}: <strong>{linesCount1}</strong><br />{filePath2.HtmlEncode()}: <strong>{linesCount2}</strong></div>");
+            bodyContent.Append($"<div class=\"col-7 text-start\">{filePath1.HtmlEncode()}: <strong>{linesCount1}</strong><br />{filePath2.HtmlEncode()}: <strong>{linesCount2}</strong></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{maxLines}</h3></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{mismatchLines}</h3></div>");
             bodyContent.Append("<div class=\"col\">");
@@ -408,9 +419,9 @@ namespace PdfSolution.Core
             double mismatchPercentage = hundred - equalPercentage;
             bodyContent.Append("<h2>Summary</h2>");
             bodyContent.Append("<div class=\"container text-center\">");
-            bodyContent.Append("<div class=\"row\"><div class=\"col\">Number of lines</div><div class=\"col\">Max lines</div><div class=\"col\">Mismatch lines</div><div class=\"col\">Equal percentage</div></div>");
+            bodyContent.Append("<div class=\"row\"><div class=\"col-7\">Number of lines</div><div class=\"col\">Max lines</div><div class=\"col\">Mismatch lines</div><div class=\"col\">Equal percentage</div></div>");
             bodyContent.Append("<div class=\"row\">");
-            bodyContent.Append($"<div class=\"col text-start\">{filePath1.HtmlEncode()}: <strong>{linesCount1}</strong><br />{filePath2.HtmlEncode()}: <strong>{linesCount2}</strong></div>");
+            bodyContent.Append($"<div class=\"col-7 text-start\">{filePath1.HtmlEncode()}: <strong>{linesCount1}</strong><br />{filePath2.HtmlEncode()}: <strong>{linesCount2}</strong></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{maxLines}</h3></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{mismatchLines}</h3></div>");
             bodyContent.Append("<div class=\"col\">");
@@ -472,9 +483,9 @@ namespace PdfSolution.Core
         {
             var bodyContent = new StringBuilder($"<h2>Summary</h2>");
             bodyContent.Append("<div class=\"container text-center\">");
-            bodyContent.Append("<div class=\"row\"><div class=\"col\">Directories under comparison</div><div class=\"col\">Total matching files</div><div class=\"col\">Different files</div><div class=\"col\">Equal percentage</div></div>");
+            bodyContent.Append("<div class=\"row\"><div class=\"col-7\">Directories under comparison</div><div class=\"col\">Total matching files</div><div class=\"col\">Different files</div><div class=\"col\">Equal percentage</div></div>");
             bodyContent.Append("<div class=\"row\">");
-            bodyContent.Append($"<div class=\"col text-start\"><strong>{comparisonReport.Directory1.HtmlEncode()}</strong><br /><strong>{comparisonReport.Directory2.HtmlEncode()}</strong></div>");
+            bodyContent.Append($"<div class=\"col-7 text-start\"><strong>{comparisonReport.Directory1.HtmlEncode()}</strong><br /><strong>{comparisonReport.Directory2.HtmlEncode()}</strong></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{comparisonReport.TotalMatchingFiles}</h3></div>");
             bodyContent.Append($"<div class=\"col\"><h3>{comparisonReport.DifferentFiles}</h3></div>");
             bodyContent.Append("<div class=\"col\">");
