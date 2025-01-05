@@ -40,11 +40,16 @@ namespace PdfSolution.Core
             return TextLines.Select(x => x.Length).Max();
         }
 
-        public string GetText(int lineIndex, int beginCharacterIndex, int endCharacterIndex)
+        public string GetLine(int lineIndex)
         {
             ArgumentOutOfRangeException.ThrowIfLessThan(lineIndex, 0, nameof(lineIndex));
             ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(lineIndex, TextLines.Count(), nameof(lineIndex));
-            string textLine = TextLines.ElementAt(lineIndex);
+            return TextLines.ElementAt(lineIndex);
+        }
+
+        public string GetText(int lineIndex, int beginCharacterIndex, int endCharacterIndex)
+        {
+            string textLine = GetLine(lineIndex);
             int maxCharacterOfLines = GetMaxCharacterOfLines();
             return textLine.PadRight(maxCharacterOfLines, ' ').Substring(beginCharacterIndex, endCharacterIndex - beginCharacterIndex + 1).Trim();
         }

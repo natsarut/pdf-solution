@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
-    public class TestDocumentsConfiguration(IEnumerable<TestCaseBase> testCases)
-    {
+    public class TestDocumentsScript(IEnumerable<TestCaseBase> testCases)
+    {         
         public IEnumerable<TestCaseBase> TestCases { get; private set; } = testCases;
     }
 }

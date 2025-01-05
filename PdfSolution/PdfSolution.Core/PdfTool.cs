@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Text.Json;
 
 namespace PdfSolution.Core
 {
@@ -24,7 +23,7 @@ namespace PdfSolution.Core
         private const string iconError = "<i class=\"bi bi-x-circle-fill\"></i>";
         private const string badgeSuccess = "Pass";
         private const string badgeError = "Fail";
-        private const string testDocumentConfigurationFileName = "TestDocuments.config.json";
+        private const string testDocumentsScriptFileName = "TestDocumentsScript.json";
         private const string outputDir = "output";
         private const double hundred = 100d;
 
@@ -120,6 +119,17 @@ namespace PdfSolution.Core
                         actualText = pdfTextReader.GetText(testCaseContain.PageNumber, testCaseContain.LineIndex, testCaseContain.BeginCharacterIndex, testCaseContain.EndCharacterIndex);
                         testResult = actualText.Contains(testCaseContain.ExpectedText);
                     }
+                    else if (testCaseBase is TestCaseContainInLine testCaseContainInLine)
+                    {
+                        TextPage textPage = pdfTextReader.GetTextPage(testCaseContainInLine.PageNumber);
+                        string line = textPage.GetLine(testCaseContainInLine.LineIndex);
+                        testResult = line.Contains(testCaseContainInLine.ExpectedText);
+                    }
+                    else if (testCaseBase is TestCaseContainInPage testCaseContainInPage)
+                    {
+                        TextPage textPage = pdfTextReader.GetTextPage(testCaseContainInPage.PageNumber);
+                        testResult = textPage.Text.Contains(testCaseContainInPage.ExpectedText);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -155,24 +165,24 @@ namespace PdfSolution.Core
             return result;
         }
 
-        public static TestDocumentsReport TestDocuments(string dir, TestDocumentsConfiguration configuration, string? outputFileName = null)
+        public static TestDocumentsReport TestDocuments(string dir, TestDocumentsScript configuration, string? outputFileName = null)
         {
             return TestDocuments(dir, configuration.TestCases, outputFileName);
         }
 
         public static TestDocumentsReport TestDocuments(string dir, string? outputFileName = null)
         {
-            string filePath = Path.Combine(dir, testDocumentConfigurationFileName);
+            string filePath = Path.Combine(dir, testDocumentsScriptFileName);
 
             if (!File.Exists(filePath))
             {
-                throw new FileNotFoundException($"ไม่พบไฟล์ '{testDocumentConfigurationFileName}' ในโฟลเดอร์ '{dir}'", filePath);
+                throw new FileNotFoundException($"ไม่พบไฟล์ '{testDocumentsScriptFileName}' ในโฟลเดอร์ '{dir}'", filePath);
             }
 
             string json = File.ReadAllText(filePath, Encoding.UTF8);
-            TestDocumentsConfiguration? configuration = JsonSerializer.Deserialize<TestDocumentsConfiguration>(json, JsonHelper.Options);
+            TestDocumentsScript? configuration = JsonHelper.Deserialize<TestDocumentsScript>(json);
 
-            return configuration == null ? throw new NullReferenceException($"{nameof(TestDocumentsConfiguration)} เป็น Null จากไฟล์ '{filePath}'") : TestDocuments(dir, configuration, outputFileName);
+            return configuration == null ? throw new NullReferenceException($"{nameof(TestDocumentsScript)} เป็น Null จากไฟล์ '{filePath}'") : TestDocuments(dir, configuration, outputFileName);
         }
 
         public static string GenerateTestDocumentsReportHtml(TestDocumentsReport testDocumentsReport)
@@ -250,6 +260,28 @@ namespace PdfSolution.Core
                             else
                             {
                                 bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not contain to the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
+                            }
+                        }
+                        else if (testCaseResult.TestCase is TestCaseContainInLine testCaseContainInLine)
+                        {
+                            if (testCaseResult.TestResult)
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                            }
+                            else
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                            }
+                        }
+                        else if (testCaseResult.TestCase is TestCaseContainInPage testCaseContainInPage)
+                        {
+                            if (testCaseResult.TestResult)
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                            }
+                            else
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
                             }
                         }
                     }
