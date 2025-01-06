@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
-    public class TestCaseEqual(int pageNumber,int lineIndex,int beginCharacterIndex,int endCharacterIndex,string expectedText) : TestCaseBase(pageNumber)
+    public class TestCaseEqual(int pageNumber,int lineIndex,int beginCharacterIndex,int endCharacterIndex,string expectedText):TestCaseBase
     {
+        public int PageNumber { get; private set; } = pageNumber;
         public int LineIndex { get; private set; }=lineIndex;
         public int BeginCharacterIndex { get; set; }=beginCharacterIndex;
         public int EndCharacterIndex { get; internal set; }=endCharacterIndex;

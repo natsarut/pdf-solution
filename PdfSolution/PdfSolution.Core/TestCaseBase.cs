@@ -12,9 +12,7 @@ namespace PdfSolution.Core
     [JsonDerivedType(typeof(TestCaseContain), nameof(TestCaseContain))]
     [JsonDerivedType(typeof(TestCaseContainInLine), nameof(TestCaseContainInLine))]
     [JsonDerivedType(typeof(TestCaseContainInPage), nameof(TestCaseContainInPage))]
-    public class TestCaseBase(int pageNumber)
+    public class TestCaseBase
     {
-        [JsonPropertyOrder(-1)]
-        public int PageNumber { get; private set; } = pageNumber;
     }
 }
