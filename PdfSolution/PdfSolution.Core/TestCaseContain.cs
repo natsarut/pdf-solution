@@ -13,5 +13,24 @@ namespace PdfSolution.Core
         public int BeginCharacterIndex { get; set; } = beginCharacterIndex;
         public int EndCharacterIndex { get; internal set; } = endCharacterIndex;
         public string ExpectedText { get; private set; } = expectedText;
+
+        public override TestCaseResult Test(PdfTextReader reader)
+        {
+            string? actualText = null;
+            bool testResult = false;
+            string? errorMessage = null;
+
+            try
+            {
+                actualText = reader.GetText(PageNumber, LineIndex, BeginCharacterIndex, EndCharacterIndex);
+                testResult = actualText.Contains(ExpectedText);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+
+            return new TestCaseResult(this, actualText, testResult, errorMessage);
+        }
     }
 }

@@ -101,56 +101,23 @@ namespace PdfSolution.Core
             var testCaseResults = new List<TestCaseResult>();
             var pdfTextReader = new PdfTextReader(filePath);
 
-            foreach (TestCaseBase testCaseBase in testCases)
+            foreach (TestCaseBase testCase in testCases)
             {
-                string? actualText = null;
-                bool testResult = false;
-                string? errorMessage = null;
-
-                try
-                {
-                    if (testCaseBase is TestCaseEqual testCaseEqual)
-                    {
-                        actualText = pdfTextReader.GetText(testCaseEqual.PageNumber, testCaseEqual.LineIndex, testCaseEqual.BeginCharacterIndex, testCaseEqual.EndCharacterIndex);
-                        testResult = actualText.Equals(testCaseEqual.ExpectedText);
-                    }
-                    else if (testCaseBase is TestCaseContain testCaseContain)
-                    {
-                        actualText = pdfTextReader.GetText(testCaseContain.PageNumber, testCaseContain.LineIndex, testCaseContain.BeginCharacterIndex, testCaseContain.EndCharacterIndex);
-                        testResult = actualText.Contains(testCaseContain.ExpectedText);
-                    }
-                    else if (testCaseBase is TestCaseContainInLine testCaseContainInLine)
-                    {
-                        TextPage textPage = pdfTextReader.GetTextPage(testCaseContainInLine.PageNumber);
-                        string line = textPage.GetLine(testCaseContainInLine.LineIndex);
-                        testResult = line.Contains(testCaseContainInLine.ExpectedText);
-                    }
-                    else if (testCaseBase is TestCaseContainInPage testCaseContainInPage)
-                    {
-                        TextPage textPage = pdfTextReader.GetTextPage(testCaseContainInPage.PageNumber);
-                        testResult = textPage.Text.Contains(testCaseContainInPage.ExpectedText);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    errorMessage = ex.Message;
-                }
-
-                var testCaseResult = new TestCaseResult(testCaseBase, actualText, testResult, errorMessage);
+                TestCaseResult testCaseResult = testCase.Test(pdfTextReader);
                 testCaseResults.Add(testCaseResult);
             }
 
             return new TestDocumentResult(testCaseResults, filePath);
         }
 
-        public static TestDocumentsReport TestDocuments(string dir, IEnumerable<TestCaseBase> testCases,string? outputFileName=null)
+        public static TestDocumentsReport TestDocuments(string dir, TestDocumentsScript testDocumentsScript, string? outputFileName = null)
         {
             var testDocumentResults = new List<TestDocumentResult>();
             string[] files = Directory.GetFiles(dir, pdfSearchPattern);
 
             foreach (string file in files)
             {
-                TestDocumentResult testDocumentResult = TestDocument(file, testCases);
+                TestDocumentResult testDocumentResult = TestDocument(file, testDocumentsScript.TestCases);
                 testDocumentResults.Add(testDocumentResult);
             }
 
@@ -163,11 +130,6 @@ namespace PdfSolution.Core
             }
 
             return result;
-        }
-
-        public static TestDocumentsReport TestDocuments(string dir, TestDocumentsScript configuration, string? outputFileName = null)
-        {
-            return TestDocuments(dir, configuration.TestCases, outputFileName);
         }
 
         public static TestDocumentsReport TestDocuments(string dir, string? outputFileName = null)

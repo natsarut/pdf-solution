@@ -10,12 +10,22 @@ namespace PdfSolution.Core
         private readonly PdfReader _pdfReader;
         private readonly PdfDocument _pdfDocument;
         private readonly List<TextPage> _pages;
+        private readonly string _filePath;
+
+        public string FilePath
+        {
+            get
+            {
+                return _filePath; 
+            }
+        }
 
         public PdfTextReader(string filePath)
         {
             _pdfReader = new PdfReader(filePath);
             _pdfDocument = new PdfDocument(_pdfReader);
             _pages = [];
+            _filePath = filePath;
         }
 
         public int GetAllNumberOfPages()
