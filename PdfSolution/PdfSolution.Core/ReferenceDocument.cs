@@ -15,5 +15,11 @@ namespace PdfSolution.Core
 
         public DocumentTypes DocumentType { get; private set; } = documentType;
         public string FilePath { get; private set; } = filePath;
+
+        public string ResolveFilePath(string testingFilePath)
+        {
+            string fileNameWithoutExt = Path.GetFileNameWithoutExtension(testingFilePath);
+            return FilePath.Replace("{FileName}", fileNameWithoutExt);
+        }
     }
 }

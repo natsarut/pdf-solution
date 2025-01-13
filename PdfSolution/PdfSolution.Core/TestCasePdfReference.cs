@@ -14,7 +14,7 @@ namespace PdfSolution.Core
         public int EndCharacterIndex { get; internal set; } = endCharacterIndex;
         public string ReferenceKey { get; private set; } = referenceKey;
 
-        public override TestCaseResult Test(PdfTextReader reader)
+        public override TestCaseResult Test(PdfTextReader testingReader)
         {
             string? actualText = null;
             bool testResult = false;
@@ -36,7 +36,17 @@ namespace PdfSolution.Core
                     }
                     else if (reference.DocumentType == ReferenceDocument.DocumentTypes.Pdf)
                     {
+                        string referenceFilePath = reference.ResolveFilePath(testingReader.FilePath);
+                        PdfTextReader? referenceReader = TestDocumentsScript.GetReferencePdfTextReader(referenceFilePath);
 
+                        if (referenceReader == null)
+                        {
+                            errorMessage = $"Reference PDF file not found ({referenceFilePath}).";
+                        }
+                        else
+                        {
+
+                        }
                     }
                     else
                     {
