@@ -45,7 +45,9 @@ namespace PdfSolution.Core
             }
             else
             {
-                result = new TextPage(PdfTextExtractor.GetTextFromPage(_pdfDocument.GetPage(pageNumber)), pageNumber);
+                string rawText = PdfTextExtractor.GetTextFromPage(_pdfDocument.GetPage(pageNumber));
+                string text = rawText.CorrectThaiChars();
+                result = new TextPage(text, pageNumber);
                 _pages.Add(result);
             }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,44 +15,63 @@ namespace PdfSolution.Core
         public int EndCharacterIndex { get; internal set; } = endCharacterIndex;
         public string ReferenceKey { get; private set; } = referenceKey;
 
-        public override TestCaseResult Test(PdfTextReader testingReader)
+        public string? GetReferenceText(string testingFilePath,out string? referenceFilePath, out string? errorMessage)
         {
-            string? actualText = null;
-            bool testResult = false;
-            string? errorMessage = null;
+            string? result = null;
+            referenceFilePath = null;
+            errorMessage = null;
 
-            try
+            if (TestDocumentsScript == null)
             {
-                if (TestDocumentsScript == null)
+                errorMessage = "TestDocumentsScript is null. Please verify TestDocumentsScript property.";
+            }
+            else
+            {
+                ReferenceDocument? reference = TestDocumentsScript.GetReferenceDocument(ReferenceKey);
+
+                if (reference == null)
                 {
-                    errorMessage = "TestDocumentsScript is null. Please verify TestDocumentsScript property.";
+                    errorMessage = $"Reference key '{ReferenceKey}' not found in References of TestDocumentsScript.json file.";
                 }
-                else
+                else if (reference.DocumentType == ReferenceDocument.DocumentTypes.Pdf)
                 {
-                    ReferenceDocument? reference = TestDocumentsScript.GetReferenceDocument(ReferenceKey);
+                    referenceFilePath = reference.ResolveFilePath(testingFilePath);
+                    PdfTextReader? referenceReader = TestDocumentsScript.GetReferencePdfTextReader(referenceFilePath);
 
-                    if (reference == null)
+                    if (referenceReader == null)
                     {
-                        errorMessage = $"Reference key '{ReferenceKey}' not found in References of TestDocumentsScript.json file.";
-                    }
-                    else if (reference.DocumentType == ReferenceDocument.DocumentTypes.Pdf)
-                    {
-                        string referenceFilePath = reference.ResolveFilePath(testingReader.FilePath);
-                        PdfTextReader? referenceReader = TestDocumentsScript.GetReferencePdfTextReader(referenceFilePath);
-
-                        if (referenceReader == null)
-                        {
-                            errorMessage = $"Reference PDF file not found ({referenceFilePath}).";
-                        }
-                        else
-                        {
-
-                        }
+                        errorMessage = $"Reference PDF file not found ({referenceFilePath}).";
                     }
                     else
                     {
-                        errorMessage = $"DocumentType value of ReferenceDocument '{ReferenceKey}' must be 'Pdf'.";
+                        result = referenceReader.GetText(PageNumber, LineIndex, BeginCharacterIndex, EndCharacterIndex);
                     }
+                }
+                else
+                {
+                    errorMessage = $"DocumentType value of ReferenceDocument '{ReferenceKey}' must be 'Pdf'.";
+                }
+            }
+
+            return result;
+        }
+
+        public override TestCaseResult Test(PdfTextReader testingReader)
+        {
+            string? referenceText = null;
+            string? referenceFilePath = null;
+            string? actualText = null;
+            bool testResult = false;
+            string? errorMessage;
+
+            try
+            {
+                referenceText = GetReferenceText(testingReader.FilePath,out referenceFilePath, out errorMessage);
+
+                if (string.IsNullOrEmpty(errorMessage) && referenceText != null)
+                {
+                    actualText = testingReader.GetText(PageNumber, LineIndex, BeginCharacterIndex, EndCharacterIndex);
+                    testResult = actualText.Equals(referenceText);
                 }
             }
             catch (Exception ex)
@@ -59,7 +79,11 @@ namespace PdfSolution.Core
                 errorMessage = ex.Message;
             }
 
-            return new TestCaseResult(this, actualText, testResult, errorMessage);
+            return new TestCaseResult(this, actualText, testResult, errorMessage)
+            {
+                ReferenceText = referenceText,
+                ReferenceFilePath= referenceFilePath
+            };
         }
     }
 }

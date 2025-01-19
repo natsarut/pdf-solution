@@ -41,11 +41,12 @@ namespace PdfSolution.Core
 
         public static string GenerateTextTableHtml(string filePath,IEnumerable<int> pageNumbers, string? outputFileName = null)
         {
+            string a=string.Join(string.Empty, ['\u0E08', '\u0E33', '\u0E32']);
             var pdfTextReader = new PdfTextReader(filePath);
             pageNumbers = [.. pageNumbers.Order()];
             var bodyContent = new StringBuilder("<nav id=\"PageIndex\" aria-label=\"...\"><ul class=\"pagination pagination-sm\">");
             bodyContent.Append(string.Join(string.Empty, pageNumbers.Select(x => $"<li class=\"page-item\"><a class=\"page-link\" href=\"#Page{x}\">{x}</a></li>")));
-            bodyContent.Append("</ul></nav>");
+            bodyContent.Append($"</ul></nav>{a}");
 
             foreach (int pageNumber in pageNumbers)
             {
@@ -67,8 +68,8 @@ namespace PdfSolution.Core
 
                     for (int characterNumber = 0; characterNumber < maxCharacterOfLines; characterNumber++)
                     {
-                        string character = characterNumber < textLine.Length ? textLine[characterNumber].ToString() : string.Empty;
-                        bodyContent.Append($"<td title=\"{lineNumber}, {characterNumber}\">{character.HtmlEncode()}</td>");
+                        char character = characterNumber < textLine.Length ? textLine[characterNumber] : '\0';
+                        bodyContent.Append($"<td title=\"{lineNumber}, {characterNumber}\">{character.ToString().HtmlEncode()}</td>");
                     }
 
                     bodyContent.Append("</tr>");
@@ -244,6 +245,17 @@ namespace PdfSolution.Core
                             else
                             {
                                 bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                            }
+                        }
+                        else if (testCaseResult.TestCase is TestCasePdfReference testCasePdfReference)
+                        {
+                            if (testCaseResult.TestResult)
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
+                            }
+                            else
+                            {
+                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
                             }
                         }
                     }

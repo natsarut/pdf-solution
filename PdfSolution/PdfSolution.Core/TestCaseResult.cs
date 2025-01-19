@@ -12,6 +12,8 @@ namespace PdfSolution.Core
         public string? ActualText { get; private set; } = actualText;
         public bool TestResult { get; private set; } = testResult;
         public string? ErrorMessage { get; private set; } = errorMessage;
+        public string? ReferenceText { get; internal set; }
+        public string? ReferenceFilePath { get; internal set; }
 
         public bool HasError
         {
