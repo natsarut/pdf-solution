@@ -13,6 +13,7 @@ namespace PdfSolution.Core
     [JsonDerivedType(typeof(TestCaseContainInLine), nameof(TestCaseContainInLine))]
     [JsonDerivedType(typeof(TestCaseContainInPage), nameof(TestCaseContainInPage))]
     [JsonDerivedType(typeof(TestCasePdfReference), nameof(TestCasePdfReference))]
+    [JsonDerivedType(typeof(TestCaseXmlReference), nameof(TestCaseXmlReference))]
     public class TestCaseBase
     {
         public TestDocumentsScript? TestDocumentsScript { get; internal set; }

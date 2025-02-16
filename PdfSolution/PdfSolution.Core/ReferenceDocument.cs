@@ -10,7 +10,8 @@ namespace PdfSolution.Core
     {
         public enum DocumentTypes
         {
-            Pdf
+            Pdf,
+            Xml
         }
 
         public DocumentTypes DocumentType { get; private set; } = documentType;

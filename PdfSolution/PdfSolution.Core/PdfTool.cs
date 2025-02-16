@@ -148,6 +148,83 @@ namespace PdfSolution.Core
             return configuration == null ? throw new NullReferenceException($"{nameof(TestDocumentsScript)} เป็น Null จากไฟล์ '{filePath}'") : TestDocuments(dir, configuration, outputFileName);
         }
 
+        private static void AppendTestCaseResult(TestCaseResult testCaseResult,ref StringBuilder content)
+        {
+            if (testCaseResult.HasError)
+            {
+                content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> Error message: {testCaseResult.ErrorMessage?.HtmlEncode()}</li>");
+            }
+            else
+            {
+                if (testCaseResult.TestCase is TestCaseEqual testCaseEqual)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
+                    }
+                }
+                else if (testCaseResult.TestCase is TestCaseContain testCaseContain)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> contains the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not contain to the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
+                    }
+                }
+                else if (testCaseResult.TestCase is TestCaseContainInLine testCaseContainInLine)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                    }
+                }
+                else if (testCaseResult.TestCase is TestCaseContainInPage testCaseContainInPage)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
+                    }
+                }
+                else if (testCaseResult.TestCase is TestCasePdfReference testCasePdfReference)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
+                    }
+                }
+                else if (testCaseResult.TestCase is TestCaseXmlReference testCaseXmlReference)
+                {
+                    if (testCaseResult.TestResult)
+                    {
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
+                    }
+                    else
+                    {
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
+                    }
+                }
+            }
+        }
+
         public static string GenerateTestDocumentsReportHtml(TestDocumentsReport testDocumentsReport)
         {
             var bodyContent = new StringBuilder("<h2>Summary</h2>");
@@ -197,68 +274,7 @@ namespace PdfSolution.Core
                 
                 foreach (TestCaseResult testCaseResult in testDocumentResult.TestCaseResults)
                 {
-                    if (testCaseResult.HasError)
-                    {
-                        bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> Error message: {testCaseResult.ErrorMessage?.HtmlEncode()}</li>");
-                    }
-                    else
-                    {
-                        if (testCaseResult.TestCase is TestCaseEqual testCaseEqual)
-                        {
-                            if (testCaseResult.TestResult)
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
-                            }
-                            else
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the expected text <strong>\"{testCaseEqual.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseEqual.PageNumber}, {testCaseEqual.LineIndex}, {testCaseEqual.BeginCharacterIndex}, {testCaseEqual.EndCharacterIndex})</strong>.</li>");
-                            }
-                        }
-                        else if (testCaseResult.TestCase is TestCaseContain testCaseContain)
-                        {
-                            if (testCaseResult.TestResult)
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> contains the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
-                            }
-                            else
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not contain to the expected text <strong>\"{testCaseContain.ExpectedText.HtmlEncode()}\"</strong> in position <strong>({testCaseContain.PageNumber}, {testCaseContain.LineIndex}, {testCaseContain.BeginCharacterIndex}, {testCaseContain.EndCharacterIndex})</strong>.</li>");
-                            }
-                        }
-                        else if (testCaseResult.TestCase is TestCaseContainInLine testCaseContainInLine)
-                        {
-                            if (testCaseResult.TestResult)
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
-                            }
-                            else
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The text line <strong>{testCaseContainInLine.LineIndex}</strong> of page <strong>{testCaseContainInLine.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInLine.ExpectedText.HtmlEncode()}\"</strong>.</li>");
-                            }
-                        }
-                        else if (testCaseResult.TestCase is TestCaseContainInPage testCaseContainInPage)
-                        {
-                            if (testCaseResult.TestResult)
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> contains the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
-                            }
-                            else
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The page <strong>{testCaseContainInPage.PageNumber}</strong> is not contain the expected text <strong>\"{testCaseContainInPage.ExpectedText.HtmlEncode()}\"</strong>.</li>");
-                            }
-                        }
-                        else if (testCaseResult.TestCase is TestCasePdfReference testCasePdfReference)
-                        {
-                            if (testCaseResult.TestResult)
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
-                            }
-                            else
-                            {
-                                bodyContent.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCasePdfReference.PageNumber}, {testCasePdfReference.LineIndex}, {testCasePdfReference.BeginCharacterIndex}, {testCasePdfReference.EndCharacterIndex})</strong>.</li>");
-                            }
-                        }
-                    }
+                    AppendTestCaseResult(testCaseResult, ref bodyContent);
                 }
 
                 bodyContent.Append("</ul></div></div></div>");
