@@ -9,12 +9,19 @@ namespace PdfSolution.Core
 {
     public class TestCaseXmlReference(int pageNumber, int lineIndex, int beginCharacterIndex, int endCharacterIndex, string referenceKey,string xPath) : TestCaseBase
     {
+        public enum Operators
+        {
+            Equal,
+            Contain
+        }
+
         public int PageNumber { get; private set; } = pageNumber;
         public int LineIndex { get; private set; } = lineIndex;
         public int BeginCharacterIndex { get; set; } = beginCharacterIndex;
         public int EndCharacterIndex { get; internal set; } = endCharacterIndex;
         public string ReferenceKey { get; private set; } = referenceKey;
         public string XPath { get; private set; } = xPath;
+        public Operators Operator { get; set; } = Operators.Equal;
 
         public string? GetReferenceText(string testingFilePath, out string? referenceFilePath, out string? errorMessage)
         {
@@ -77,7 +84,16 @@ namespace PdfSolution.Core
                 if (string.IsNullOrEmpty(errorMessage) && referenceText != null)
                 {
                     actualText = testingReader.GetText(PageNumber, LineIndex, BeginCharacterIndex, EndCharacterIndex);
-                    testResult = actualText.Equals(referenceText);
+
+                    switch (Operator)
+                    {
+                        case Operators.Equal:
+                            testResult = actualText.Equals(referenceText);
+                            break;
+                        case Operators.Contain:
+                            testResult = actualText.Contains(referenceText);
+                            break;
+                    }
                 }
             }
             catch (Exception ex)

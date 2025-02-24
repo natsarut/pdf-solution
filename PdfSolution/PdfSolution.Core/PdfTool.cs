@@ -215,11 +215,11 @@ namespace PdfSolution.Core
                 {
                     if (testCaseResult.TestResult)
                     {
-                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> equals the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
+                        content.Append($"<li><strong class=\"{textSuccess}\" title=\"{badgeSuccess}\">{iconSuccess}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> {(testCaseXmlReference.Operator==TestCaseXmlReference.Operators.Equal? "equals" : "contains")} the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
                     }
                     else
                     {
-                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not equal to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
+                        content.Append($"<li><strong class=\"{textError}\" title=\"{badgeError}\">{iconError}</strong> The actual text <strong>\"{testCaseResult.ActualText?.HtmlEncode()}\"</strong> is not {(testCaseXmlReference.Operator == TestCaseXmlReference.Operators.Equal ? "equal" : "contain")} to the reference text <strong>\"{testCaseResult.ReferenceText?.HtmlEncode()}\"</strong> in XML file <strong>\"{testCaseResult.ReferenceFilePath?.HtmlEncode()}\"</strong> for position <strong>({testCaseXmlReference.PageNumber}, {testCaseXmlReference.LineIndex}, {testCaseXmlReference.BeginCharacterIndex}, {testCaseXmlReference.EndCharacterIndex})</strong>.</li>");
                     }
                 }
             }
