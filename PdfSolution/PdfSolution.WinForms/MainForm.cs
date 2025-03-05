@@ -1,4 +1,4 @@
-namespace PdfSolution.WinForms
+﻿namespace PdfSolution.WinForms
 {
     public partial class MainForm : Form
     {
@@ -29,6 +29,11 @@ namespace PdfSolution.WinForms
         private void CreatesTextTableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowSingleForm<TextTableCreatorForm>();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            ShowSingleForm<SplashScreenForm>();
         }
     }
 }

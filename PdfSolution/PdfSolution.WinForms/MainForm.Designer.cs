@@ -30,9 +30,9 @@
         {
             menuStrip = new MenuStrip();
             toolsToolStripMenuItem = new ToolStripMenuItem();
+            createsTextTableToolStripMenuItem = new ToolStripMenuItem();
             documentsComparerMenuItem = new ToolStripMenuItem();
             treeView = new TreeView();
-            createsTextTableToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -52,6 +52,13 @@
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
+            // createsTextTableToolStripMenuItem
+            // 
+            createsTextTableToolStripMenuItem.Name = "createsTextTableToolStripMenuItem";
+            createsTextTableToolStripMenuItem.Size = new Size(187, 22);
+            createsTextTableToolStripMenuItem.Text = "Creates Text Table";
+            createsTextTableToolStripMenuItem.Click += CreatesTextTableToolStripMenuItem_Click;
+            // 
             // documentsComparerMenuItem
             // 
             documentsComparerMenuItem.Name = "documentsComparerMenuItem";
@@ -67,13 +74,6 @@
             treeView.Size = new Size(300, 537);
             treeView.TabIndex = 3;
             // 
-            // createsTextTableToolStripMenuItem
-            // 
-            createsTextTableToolStripMenuItem.Name = "createsTextTableToolStripMenuItem";
-            createsTextTableToolStripMenuItem.Size = new Size(187, 22);
-            createsTextTableToolStripMenuItem.Text = "Creates Text Table";
-            createsTextTableToolStripMenuItem.Click += CreatesTextTableToolStripMenuItem_Click;
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -85,6 +85,7 @@
             MainMenuStrip = menuStrip;
             Name = "MainForm";
             Text = "PDF Solution";
+            Load += MainForm_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
             ResumeLayout(false);
