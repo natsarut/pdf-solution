@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
+    /// <summary>
+    /// A test case class to test whether text in a PDF file has expected values ​​in a given line.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <param name="lineIndex"></param>
+    /// <param name="expectedText"></param>
     public class TestCaseContainInLine(int pageNumber, int lineIndex, string expectedText):TestCaseBase
     {
         public int PageNumber { get; private set; } = pageNumber;

@@ -7,6 +7,14 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
+    /// <summary>
+    /// A test case class to compare page regions of two documents as text.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <param name="lineIndex"></param>
+    /// <param name="beginCharacterIndex"></param>
+    /// <param name="endCharacterIndex"></param>
+    /// <param name="referenceKey"></param>
     public class TestCasePdfReference(int pageNumber, int lineIndex, int beginCharacterIndex, int endCharacterIndex, string referenceKey) : TestCaseBase
     {
         public int PageNumber { get; private set; } = pageNumber;

@@ -7,6 +7,15 @@ using System.Xml;
 
 namespace PdfSolution.Core
 {
+    /// <summary>
+    /// A test case class to compare page regions between a PDF file and an XML file.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <param name="lineIndex"></param>
+    /// <param name="beginCharacterIndex"></param>
+    /// <param name="endCharacterIndex"></param>
+    /// <param name="referenceKey"></param>
+    /// <param name="xPath"></param>
     public class TestCaseXmlReference(int pageNumber, int lineIndex, int beginCharacterIndex, int endCharacterIndex, string referenceKey,string xPath) : TestCaseBase
     {
         public enum Operators

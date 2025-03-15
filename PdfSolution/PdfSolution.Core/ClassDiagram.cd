@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="PdfSolution.Core.TestCaseBase">
+    <Position X="7.75" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCaseBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCaseContain">
+    <Position X="4.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAQAAAIAAAAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCaseContain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCaseContainInLine">
+    <Position X="6.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAQAAAIAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCaseContainInLine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCaseContainInPage">
+    <Position X="8.5" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCaseContainInPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCaseEqual">
+    <Position X="2.5" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAQAAAAQAAAIAAAAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCaseEqual.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCasePdfReference">
+    <Position X="10.75" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>IACAAAAAQAAAAQAAAAAAAAQAAQAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>TestCasePdfReference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PdfSolution.Core.TestCaseXmlReference">
+    <Position X="12.75" Y="3" Width="1.75" />
+    <NestedTypes>
+      <Enum Name="PdfSolution.Core.TestCaseXmlReference.Operators" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>TestCaseXmlReference.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IACAAAAAQABAAQAAAAAAAAQAAQAAAAAAAAAACAAAIAA=</HashCode>
+      <FileName>TestCaseXmlReference.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

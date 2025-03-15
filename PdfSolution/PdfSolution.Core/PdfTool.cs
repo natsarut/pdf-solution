@@ -41,12 +41,12 @@ namespace PdfSolution.Core
 
         public static string GenerateTextTableHtml(string filePath,IEnumerable<int> pageNumbers, string? outputFileName = null)
         {
-            string a=string.Join(string.Empty, ['\u0E08', '\u0E33', '\u0E32']);
+            //string a=string.Join(string.Empty, ['\u0E08', '\u0E33', '\u0E32']);
             var pdfTextReader = new PdfTextReader(filePath);
             pageNumbers = [.. pageNumbers.Order()];
             var bodyContent = new StringBuilder("<nav id=\"PageIndex\" aria-label=\"...\"><ul class=\"pagination pagination-sm\">");
             bodyContent.Append(string.Join(string.Empty, pageNumbers.Select(x => $"<li class=\"page-item\"><a class=\"page-link\" href=\"#Page{x}\">{x}</a></li>")));
-            bodyContent.Append($"</ul></nav>{a}");
+            bodyContent.Append($"</ul></nav>");
 
             foreach (int pageNumber in pageNumbers)
             {

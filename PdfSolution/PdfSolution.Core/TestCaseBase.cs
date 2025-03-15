@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
+    /// <summary>
+    /// Base class to implements test case class.
+    /// </summary>
     [JsonDerivedType(typeof(TestCaseBase), nameof(TestCaseBase))]
     [JsonDerivedType(typeof(TestCaseEqual), nameof(TestCaseEqual))]
     [JsonDerivedType(typeof(TestCaseContain), nameof(TestCaseContain))]

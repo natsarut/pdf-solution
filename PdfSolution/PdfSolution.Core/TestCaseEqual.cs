@@ -6,6 +6,14 @@ using System.Threading.Tasks;
 
 namespace PdfSolution.Core
 {
+    /// <summary>
+    /// A test case class to test the text in a PDF file against the expected values.
+    /// </summary>
+    /// <param name="pageNumber"></param>
+    /// <param name="lineIndex"></param>
+    /// <param name="beginCharacterIndex"></param>
+    /// <param name="endCharacterIndex"></param>
+    /// <param name="expectedText"></param>
     public class TestCaseEqual(int pageNumber,int lineIndex,int beginCharacterIndex,int endCharacterIndex,string expectedText):TestCaseBase
     {
         public int PageNumber { get; private set; } = pageNumber;
