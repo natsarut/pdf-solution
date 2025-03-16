@@ -44,8 +44,11 @@
   </Class>
   <Class Name="PdfSolution.Core.TestCaseXmlReference">
     <Position X="12.75" Y="3" Width="1.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Enum Name="PdfSolution.Core.TestCaseXmlReference.Operators" Collapsed="true">
+      <Enum Name="PdfSolution.Core.TestCaseXmlReference.Operators">
         <TypeIdentifier>
           <NewMemberFileName>TestCaseXmlReference.cs</NewMemberFileName>
         </TypeIdentifier>
